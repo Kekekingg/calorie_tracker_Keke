@@ -3,15 +3,18 @@ import {type Activity } from "../types"
 //Payload es la informacion que se envia al reducer junto con la accion
 //Esa info se recupera con action.payload
 export type ActivityActions = 
-{ type: 'save-activity', payload: { newActivity: Activity} }
+{ type: 'save-activity', payload: { newActivity: Activity} } |
+{ type: 'set-activeId', payload: { id: Activity['id'] } } //Se pueden agregar mas acciones aqui
 
-type ActivityState = {
-    activities: Activity[]
+export type ActivityState = {
+    activities: Activity[],
+    activeId: Activity['id'] //Lookup que se puede actualizar despues
 }
 
 //Puede tener multiples estados iniciales
 export const InitialState : ActivityState= {
-    activities: []
+    activities: [],
+    activeId: ''
 }
 
 //Conecta a ambos
@@ -26,6 +29,14 @@ export const activityReducer = (
                 //Toma una copia del estado
                 ...state,
                 activities: [...state.activities, action.payload.newActivity]
+            }
+        }
+
+        //Esta accion actualiza el activeId
+        if(action.type === 'set-activeId') {
+            return {
+                ...state,
+                activeId: action.payload.id
             }
         }
         return state;

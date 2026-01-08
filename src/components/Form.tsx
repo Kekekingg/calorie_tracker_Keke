@@ -25,6 +25,7 @@ export default function Form({ dispatch, state }: FormProps) {
   useEffect(() => {
     if(state.activeId) { //El filter regresa un arreglo
       const selectedActivity = state.activities.filter( stateActivity => stateActivity.id === state.activeId)[0];
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActivity(selectedActivity)
     }
   }, [state.activeId])
@@ -115,7 +116,7 @@ export default function Form({ dispatch, state }: FormProps) {
         value={activity.category === 1 ? 'Guardar Comida' : 'Guardar Ejercicio'}
         disabled={!isValidActivity()}
       />
-      
+
     </form>
   )
 }
